@@ -20,5 +20,41 @@
     net stop/start MongoDB
     ```
 
-    - Mongodb shell
+- [Mongodb shell Installation](https://www.mongodb.com/try/download/shell)
+      
+ - ![image](https://github.com/user-attachments/assets/b2f59316-b890-4c5e-af64-c760bdb9ed86)
+   ```bash
+    show dbs # List the databases present
+    ```
+      
+- ![image](https://github.com/user-attachments/assets/6763afa8-6d71-4f05-85ce-ba8a792c216e)
+
+```bash
+    use dbname # Create and switch to the db
+```
+- ![image](https://github.com/user-attachments/assets/fe9d6ade-e0b2-433d-bb8b-04b7bd772d52)
+
+```bash
+    db.collection_name.insert({key:value})
+```
+    
+```bash
+    db.collection_name.find()
+```
+
+  
+```bash
+   db.collection_name.find().pretty()
+ ```
+
+- [Mongo Drivers](https://www.mongodb.com/docs/drivers/?msockid=19c3d7e25a1d6e7108cbc3475b866f2b)
+
+
+![image](https://github.com/user-attachments/assets/7fd3559a-b78b-40a5-a594-e16c6ba8ac19)
+
+![image](https://github.com/user-attachments/assets/a89e073e-1f51-44d3-ba9e-edd0ff2964ae)
+
+
+
+ 
 
