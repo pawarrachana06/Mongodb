@@ -133,6 +133,15 @@ updateMany(filter,data,options) # $set is important
 update(filter,data,options) # $ set is not important , and will replace the object with the update value instead of adding a new field to existing.
 ```
 
+eg : Write a query to update the age of a student named Alice to 26 in the “students” collection.
+
+``` bash
+db.students.updateOne(
+   { name: "Alice" },
+   { $set: { age: 26 } }
+)
+```
+
 ## Replace
 
 ```bash
