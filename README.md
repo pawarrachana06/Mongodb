@@ -203,9 +203,15 @@ db.myCollection.drop()
 
 --> NumberInt creates a int32 value => NumberInt(55)
 
+
+
 --> NumberLong creates a int64 value => NumberLong(7489729384792)
 
+
+
 --> If you just use a number (e.g. insertOne({a: 1}), this will get added as a normal double into the database. The reason for this is that the shell is based on JS which only knows float/ double values and doesn't differ between integers and floats.
+
+
 
 --> NumberDecimal creates a high-precision double value => NumberDecimal("12.99") => This can be helpful for
 
@@ -216,13 +222,16 @@ Embedded document eg.patient and summary
 ## One to Many relation
 
 --> reference method (city citizen eg)
+
+
 --> Embedded document (question answer eg)
 
 ## Many to Many
 
 --> Reference and emebedded (eg. customer  order eg)
 
-- Reference when it is duplication and changing everytime.
+
+Note : Reference when it is duplication and changing everytime.
 
 
 
