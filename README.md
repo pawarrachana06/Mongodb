@@ -56,7 +56,7 @@
 
 
 ## Database, collection , Document
--Momgodb has the following structure:
+- Mongodb has the following structure:
  -> Database 
  -> Database can have many Collection ,similar to Tables in sql.
  -> Document is the object or data to be stored.
