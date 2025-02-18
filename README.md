@@ -119,6 +119,13 @@ deleteOne(filter,options)
 deletMany(filter,options)
 ```
 
+``` bash
+
+deleteMany({}) # delete all
+
+```
+
+
 ![image](https://github.com/user-attachments/assets/8e1d2a30-c775-4620-aeb9-b36de999eedb)
 ![image](https://github.com/user-attachments/assets/54e00b75-f275-4f6d-aabb-d98ded26dd74)
 
@@ -156,6 +163,15 @@ replaceOne(filter,data,options) # Is best to replace the fields with new fields 
  find().forEach()/toArray() # to get all at onces
 ```
 
+## To drop a db or collection
+
+``` bash
+db.dropDatabase()
+```
+
+``` bash
+db.myCollection.drop()
+```
 
 ## Projection
 - To only get the data needed .rather then filtering in backend code
@@ -172,6 +188,46 @@ replaceOne(filter,data,options) # Is best to replace the fields with new fields 
 ```bash
  db.collection_name.updateOne({name:"Max"},{status:{description:"Writer"}})
 ```
+
+## Schemas and Relations
+
+### Data types
+
+1. Text : string , with "" on right side
+2. Boolean :true/false
+3. Number : NumberInt(),Integer (int 32) eg 55 , NumberLong (int 64) eg .100000, NumberDecimal eg.12.99
+4. objectId : unqiue id
+5. date:ISODate("2018-09-09") new Date()
+6. Timestamp : Timestamp() new Timestamp()
+7. Array :List of all above eg . []
+
+--> NumberInt creates a int32 value => NumberInt(55)
+
+--> NumberLong creates a int64 value => NumberLong(7489729384792)
+
+--> If you just use a number (e.g. insertOne({a: 1}), this will get added as a normal double into the database. The reason for this is that the shell is based on JS which only knows float/ double values and doesn't differ between integers and floats.
+
+--> NumberDecimal creates a high-precision double value => NumberDecimal("12.99") => This can be helpful for
+
+## One to one relations
+
+Embedded document eg.patient and summary 
+
+## One to Many relation
+
+--> reference method (city citizen eg)
+--> Embedded document (question answer eg)
+
+## Many to Many
+
+--> Reference and emebedded (eg. customer  order eg)
+
+- Reference when it is duplication and changing everytime.
+
+
+
+
+
 
 
 
