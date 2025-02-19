@@ -200,6 +200,7 @@ db.myCollection.drop()
 5. date:ISODate("2018-09-09") new Date()
 6. Timestamp : Timestamp() new Timestamp()
 7. Array :List of all above eg . []
+8. bsonType
 
 --> NumberInt creates a int32 value => NumberInt(55)
 
@@ -232,6 +233,54 @@ Embedded document eg.patient and summary
 
 
 Note : Reference when it is duplication and changing everytime.
+
+## Aggregate
+merging the relations
+
+
+``` bash 
+db.books.aggregate([{$lookup:{from:"authors",localField:"authors",foreignField:"_id",as:"creator"}}])
+```
+
+
+author --> collection name 
+localField --> field in collection 
+foreignField --> _id in current table 
+as  ---> alias name 
+
+## Schema Validation
+
+two levels:
+
+1. validationLevel: strict /moderate
+2.validationAction : error(abort)/warn(proceed)
+
+``` bash 
+db.createCollection("post",{
+validator:{
+$jsonSchema:{
+bsonType:'object",
+required:["title","text","creator","comment"],
+propertiers:{
+title:{ bsontype:"string",
+description:"must be string",
+}
+}
+}
+}
+```
+
+
+
+``` bash
+
+db.runCommand("collection_name",validation)
+```
+
+
+
+
+
 
 
 
