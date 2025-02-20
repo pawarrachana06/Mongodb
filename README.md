@@ -277,6 +277,21 @@ description:"must be string",
 db.runCommand("collection_name",validation)
 ```
 
+## Mongo server additional settings
+
+``` bash
+
+ --dbpath && --logpath  ## add when starting the shell
+```
+
+
+## Mongo compass
+Visual display of db like mysql workbench
+
+
+## CREATE
+
+
 
 
 
