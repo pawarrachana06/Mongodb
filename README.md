@@ -475,7 +475,7 @@ db.collectioname.find({hobbies:{$size:3}}).pretty()
 
 b.$all
 
-when you exactly those item but in any order
+when you need exactly those item but in any order
 
 
 ``` bash
@@ -497,6 +497,156 @@ These will return the document with exact match
 
 
 ##Cursor
+Requests in Batch , limit is 20
+
+it -->cursor shell
+
+shell is JS
+
+const dataCursor=db.collectionname.find()
+dataCursor.next()
+dataCursor.hasNext() --> return true if there is.
+
+
+####sort
+
+``` bash
+db.collectioname.find().sort({"rating.average::1}).pretty() # 1 for ascending and -1 for descending
+
+```
+
+Multi sorting
+
+``` bash
+db.collectioname.find().sort({"rating.average::1, runtime:1}).pretty() # 1 for ascending and -1 for descending
+
+```
+
+
+Limit
+
+
+
+``` bash
+db.collectioname.find().sort({"rating.average::1}).limit(10).pretty() # 1 for ascending and -1 for descending
+
+```
+
+
+Skip
+
+
+``` bash
+db.collectioname.find().sort({"rating.average::1}).skip(10).pretty() # 1 for ascending and -1 for descending
+
+```
+
+Order doesnt matter , mongodb does the sorting if skip/limit was earlier
+
+### Projection 
+
+``` bash
+db.collectioname.find({}, {name:1,genres:1,rating:1)).pretty() #first is  {} to return all
+```
+
+#### Projects in Array
+
+
+``` bash
+db.collectioname.find({genres:"Drama"),{"genres.$":1})
+```
+
+$slice
+
+``` bash
+db.collectioname.find({"rating.average":{$gt:9)},{genres:{$slice:2},name:1}).pretty()
+
+```
+
+return the genres with first 2 elements
+
+``` bash
+db.collectioname.find({"rating.average":{$gt:9)},{genres:{$slice:[1,2]},name:1}).pretty()
+
+```
+
+returns the genres with second and third element ,skipping the first name
+
+
+
+## UPDATE
+
+#### update
+
+
+``` bash
+db.collectioname.updateOne({_id:OnjectId("5d-----------")},{$set:{hobbies:[{title:"sports",frequency:5,},{title:"Cooking",frequency:3},{title:"Hiking",frequency:1}}}})
+# doesnt overide the existing fields but changes/updates the matched one
+```
+
+#### updateMany
+
+``` bash
+db.collectioname.updateMany({title:"Sports"},{$set:{isSporty:true}}) # adds an extra field to matched documents
+
+```
+
+#### Incrementing and Decrementing values
+
+
+``` bash
+db.collectioname.updateOne({name:"Manuel"},{$inc:{age:1}} # -1 to decrement and 1 for increment
+
+```
+
+### $min , $max and $mul
+
+
+
+
+
+
+
+
+
+## DELETE
+
+
+To delete one document
+
+``` bash
+db.collectioname.deleteOne({name:"chris"})
+
+```
+
+To delete multiple records
+
+``` bash
+db.collectioname.deleteMany({age:{$gt:30}})
+
+```
+
+Collection delete
+
+
+``` bash
+db.collectioname.drop()
+
+```
+
+Database delete
+
+
+``` bash
+db.collectionamedropDatabase()
+
+```
+
+
+
+
+
+
 
 
 
