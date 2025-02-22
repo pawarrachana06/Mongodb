@@ -291,6 +291,118 @@ Visual display of db like mysql workbench
 
 ## CREATE
 
+``` bash
+insertOne(data,options)
+```
+if there is any duplication , it aborts and stop the furthur process.
+
+``` bash
+insertMany(data,options)
+```
+
+{ordered:false} --> to continue when fails  default is true , wjich will stop when error
+
+## WriteConcern
+
+default is w:1 
+where we get the acknowlegdement that the opeation was perfomred successfully.
+
+client --> MongoDb server -->Storage Engine (Memory ,Data on Disk,Journel)
+
+Journel : Operation the enginer has to perform.
+
+{writeConcern:{w:1, j:UNDEFINED}}   --> write on how many instances defined and be acknowlegde, j journel (todo file operation not completed)
+
+{w:1, j:true} --> success write and stored in journel , HIGH SECURITY 
+
+{w:1,wtimeout:200, j:true} --> to give a time for success
+
+
+## What is Atomicity
+
+transcation either successed as a whole or fails
+
+MongoDB CRUD Operations are atomic on the document Level(Including Embedded Documents)
+
+## Importing Data
+
+``` bash
+
+mongoimport filename -d databasename -c collectionname --jsonArray  --drop
+
+```
+
+--jsonArray : To specify there are mor than one elements
+
+--drop : Delete the previoud collection and create new
+
+
+## READ 
+
+``` bash
+
+db.collectionname.find({fields:value})
+
+```
+
+
+
+``` bash
+
+db.collectionname.find({fields:{$operator:value}})
+
+```
+
+### Operators
+
+Query operators
+
+1.Comparision
+
+
+``` bash
+db.collectioname.find({runtime:{$ne:60}})
+```
+
+$ne : not equal
+$lte: lower than equal to
+$gt:greather than
+$eq: equal to
+
+Embedded query
+
+
+``` bash
+db.collectioname.find({"rating.average":{$gt:7}})
+```
+
+With Arrays
+
+
+``` bash
+db.collectioname.find({genres:"Drama"}}) 
+```
+
+
+``` bash
+db.collectioname.find({genres:["Drama"]}}) # Exact match
+```
+
+
+``` bash
+db.collectioname.find({runtime:{$in:[30,42]}}) # If the values is in the array same for $nin
+```
+
+
+2.Logical Operators
+
+
+
+
+
+
+
+
 
 
 
