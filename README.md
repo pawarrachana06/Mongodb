@@ -396,6 +396,55 @@ db.collectioname.find({runtime:{$in:[30,42]}}) # If the values is in the array s
 
 2.Logical Operators
 
+a.$or
+
+``` bash
+db.collectioname.find({$or:[{"rating.average:{$lt:5}},{"rating.average":{$gt:9.3}}]}) 
+```
+
+b.$and
+
+``` bash
+db.collectioname.find({$and:[{"rating.average:{$lt:5}},{"rating.average":{$gt:9.3}}]}) 
+```
+
+OR
+
+``` bash
+db.collectioname.find({"rating.average:{$lt:5}},{"rating.average":{$gt:9.3}}) # Exact match
+```
+
+default is and
+if we look for same field ,we need $and
+
+c.$nor :opposite of $or
+
+d.$not
+
+``` bash
+db.collectioname.find({runtime:{$not:{$eg:60}}).count()
+```
+
+
+
+3.Elements
+
+a.$exists
+
+``` bash
+db.collectioname.find({age:{$exists:true, $ne:null}}) # only exists will give the null onces also
+```
+
+b.$type
+
+
+``` bash
+db.collectioname.find({phone:{$type:number}})
+```
+
+4.Evaluation
+
+
 
 
 
