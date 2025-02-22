@@ -444,6 +444,68 @@ db.collectioname.find({phone:{$type:number}})
 
 4.Evaluation
 
+a.$regex
+
+``` bash
+db.collectioname.find({summary:{$regex:/musical/}) # not efficient 
+```
+
+b.$expr
+
+``` bash
+db.collectioname.find({$expr:{$gt:["$volume","$target"]}}) # volumen is greater than target
+```
+
+
+## Querying Arrays
+
+``` bash
+db.collectioname.find({"hobbies.title":"Sports:})
+
+```
+
+a.$size
+
+
+``` bash
+db.collectioname.find({hobbies:{$size:3}}).pretty()
+
+```
+
+
+b.$all
+
+when you exactly those item but in any order
+
+
+``` bash
+db.collectioname.find({genre:{$all:["action","thriller"]}) # if $all is not there it will only return the exact match
+
+```
+
+c.$elemMatch
+
+In embedded document if we want to get only the element that has both condition and not checking the conditions separately, we use $elemMatch
+
+``` bash
+db.collectioname.find({hobbies:{$elemMatch:{"title":{"Sport"}},{"frequency":{$gt:{3}}}}}).count()
+
+```
+
+These will return the document with exact match
+
+
+
+##Cursor
+
+
+
+
+
+
+
+
+
 
 
 
