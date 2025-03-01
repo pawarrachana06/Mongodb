@@ -651,7 +651,7 @@ $ → Updates only the first matching element in an array.
 $[] → Updates all elements in an array.
 $[el] with arrayFilters → Updates only specific elements that match a filter condition inside an array.
 
-## Adding elemn=ents to Array
+## Adding elemnents to Array
 
 
 ``` bash
