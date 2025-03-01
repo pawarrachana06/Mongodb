@@ -698,16 +698,50 @@ Database delete
 
 
 ``` bash
-db.collectionamedropDatabase()
+db.collectioname.dropDatabase()
+
+```
+
+## Working with Indexes
+
+- Index are better for performance , but if too many it will lower the performance during inserts. choose wisely.
+
+``` bash
+db.collectionname.explain().find({'dob.age":{$gt:60}}) # explains the execution procedure
 
 ```
 
 
+``` bash
+db.collectioname.createIndex({'dob.age":1}) # 1/-1 desc/asc
+
+```
+
+``` bash
+db.collectioname.dropIndex({'dob.age':1})
+
+```
 
 
+## When to avoid indexes
+
+1. when you are sure the query will return the full collection. Index is not essential.
+2. When you are aure it will return 10%/20% of collection it will speed up performance.
+
+#### Creating compound indexes
+
+``` bash
+db.collectioname.createIndex({'dob.age":1,gender:1}) # can work for age ,but not gender only. LTR
+
+```
+
+sorting in memory 32MB
 
 
+``` bash
+db.collectioname.getIndexes()
 
+```
 
 
 
