@@ -731,10 +731,10 @@ db.collectioname.dropIndex({'dob.age':1})
 #### Creating compound indexes
 
 ``` bash
-db.collectioname.createIndex({'dob.age":1,gender:1}) # can work for age ,but not gender only. LTR
+db.collectioname.createIndex({'dob.age":1,gender:1}) # can work for age ,but not gender only it goes to column span. LTR
 
 ```
-
+Creatina a compound index with two array column not work
 sorting in memory 32MB
 
 
@@ -744,18 +744,74 @@ db.collectioname.getIndexes()
 ```
 
 
+## Partial filteres
+
+
+``` bash
+db.collectioname.createIndex({'dob.age":1},{partialFilterExpression:{"dob.age":{$gt:60}}) # 
+#  have to specify both . difference between , compunf and partial is limited number of collection , only restricted to male
+```
+
+#### TTL (Time to Live)
+
+to delete the collection ,which is having a date field using indexes.
+
+``` bash
+db.collectioname.createIndex({createdAt:1},{expreAfterSeconds:10})
+
+```
 
 
 
+``` bash
+db.collectioname.explain().find() # show the query execution steps , "queryPlanner,"executionStats","allPlansExecution"
+
+```
+
+#### Covered queries
+
+when the result is fully present in the index. optimization ,speed is faster.No COLUMSCAN happens.Not advised to have index for every value.
+
+Text index
+
+``` bash
+db.collectioname.createIndex({description:"text"}) # a ,the ,is ignored
+
+```
+
+``` bash
+db.collectioname.find({$text:{$search:"book"}}).pretty()
+
+```
+``` bash
+db.collectioname.find({$text:{$search:" "}},{score:{$meta:""}}).sort({score:{$meta:""}}).pretty()
+
+```
+
+``` bash
+db.collectioname.createIndex({description:"text"},{background:true}) 
+```
+
+## Geospatial Queries
+
+GeoJson
 
 
+``` bash
+db.collectioname.insertOne({name:"california",location:{type:"Point",cordinates:[longitude,latitude]}})
 
+```
 
+``` bash
+db.collectioname.createIndex({loaction:"2dshphere"})
 
+```
 
+``` bash
+db.collectioname.find({location:{$near:{$geometry:{type:"Point",coordinates:[-122.47,37.77]}},$maxDistance:,$minDistance:}}
 
-
-
+```
+[Geospatial data](https://www.mongodb.com/docs/manual/geospatial-queries/#:~:text=MongoDB%20supports%20query%20operations%20on%20geospatial%20data.%20This,learn%20more%2C%20see%20Perform%20Geospatial%20Queries%20in%20Atlas.?msockid=19c3d7e25a1d6e7108cbc3475b866f2b)
 
 
 
