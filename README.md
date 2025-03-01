@@ -580,7 +580,7 @@ returns the genres with second and third element ,skipping the first name
 
 
 ``` bash
-db.collectioname.updateOne({_id:OnjectId("5d-----------")},{$set:{hobbies:[{title:"sports",frequency:5,},{title:"Cooking",frequency:3},{title:"Hiking",frequency:1}}}})
+db.collectioname.updateOne({_id:ObjectId("5d-----------")},{$set:{hobbies:[{title:"sports",frequency:5,},{title:"Cooking",frequency:3},{title:"Hiking",frequency:1}}}})
 # doesnt overide the existing fields but changes/updates the matched one
 ```
 
@@ -601,12 +601,72 @@ db.collectioname.updateOne({name:"Manuel"},{$inc:{age:1}} # -1 to decrement and 
 
 ### $min , $max and $mul
 
+``` bash
+db.collectioname.updateOne({name:"Manuel"},{$max:{age:32}} # set the age to 32 if the value is less then 32 , alternatively min does the same but reverse if the value is greater than specified.mul multiplies the values
+
+```
+
+### Getting rid of fields
+
+``` bash
+db.collectioname.updateOne({name:"Manuel"},{$unset:{phone:''}}) # removes the  phone field
+
+```
+
+##Rename
+
+``` bash
+db.collectioname.updateOne({},{$rename:{age:{"totalAge"}}}) #  rename age to totalage
+
+```
+
+##Upsert
+
+``` bash
+db.collectioname.updateOne({name:"Maria"},{$set:{phone:"",title:"",frequency:{}}},{unpsert:true) #if the document is not present it creates one
+
+```
+
+## updating array
+
+``` bash
+db.collectioname.updateMany({hobbies:{$elemMatch:{title:"Sports",frequency:{$gte:3}}},{$set:{"hobbies.$.highFrequency":true}})  # hobbies returned earlier ,access it and add new values
+$ updates the first matching filter
+```
+
+#### updating all array elements/embedded elements.
+
+``` bash
+db.collectioname.updateMany({totalAge:{$gt:30}},{$inc:{"hobbies.$.[].frequency":-1}}) # refering the document inside hobbies with $.[]
+
+```
+
+``` bash
+db.collectioname.updateOne({"hobbies.frquency":{$gt:2}},{$set:{"hobbies.$[el].goodFrequency":true}}.{arrayFilters:[{"el.frequency":{$gt:2}}]})
+
+```
+
+
+$ → Updates only the first matching element in an array.
+$[] → Updates all elements in an array.
+$[el] with arrayFilters → Updates only specific elements that match a filter condition inside an array.
+
+## Adding elemn=ents to Array
+
+
+``` bash
+db.collectioname.updateOne({name:"Maria",{$push:{hobbies:{$each:[{title:"Good wine",frequency:1},{title:"Hiking",frequnecy:2}]}}})
+
+```
 
 
 
+## Remove
 
+``` bash
+db.collectioname.updateOne({name:"Maria",{$pull:{hobbies:{title:"Good wine"}}}) # $pop 1 last ,-1 first element {$pop:{hobbies:1}} $addToSet similar to push but no duplicate values 
 
-
+```
 
 
 ## DELETE
