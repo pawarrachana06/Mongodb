@@ -991,8 +991,62 @@ num:10, #limit
 ]) #geoNear has to be the first pipeline
 ```
 
+
+
 ### Working with Numeric Data
+1.Int 32/64 bit
+2.Double 64bit/128 bit high preicision
+
+## Security
+
+Authentication : Identifies valid users of the database
+
+Authorization: Identifies what these users may actually do in the database
 
 
+createUser({user:"",pwd:"",roles:["userAdminAnyDatabase]) -->"Maxschwar"(Roles $ Privileges) -->Database access
+db.auth(username,passsword)
+
+db.getUser("name")
+
+## Deployment
+
+1.capped collection : delete the previous data , when condition meet .
+
+``` mongodb
+
+db.createCollection("User",{capped:true},{max:3})
+```
+
+2.Replica set (Backup/Fault tolerance)
+
+write to primary always, read if primary is offline , new primary is elected from secondary.
+
+[!replica set](https://github.com/user-attachments/assets/5fa240fd-110e-4cc0-a8de-c35070b7b7b8)
+
+
+3.Sharding (Horizontal scaling)
+
+more operation .
+
+multiple servers:distrubuted data , queries ran on all.mongos(Router)
+
+4.Deploying
+
+mongoDb Atlas along with cloud provider.
+
+
+## Transaction
+success/fail
+
+
+``` mongodb
+const session=db.getMongo().startSesssion()
+session.startTransaction()
+const userC=session.getDatabase("blog").user
+userC=deleteOne({_id:ObjectId("9999")} # still not deleted in todo
+session.commitTransaction() #can commit/abort
+
+```
 
 
