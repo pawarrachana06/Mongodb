@@ -814,21 +814,185 @@ db.collectioname.find({location:{$near:{$geometry:{type:"Point",coordinates:[-12
 [Geospatial data](https://www.mongodb.com/docs/manual/geospatial-queries/#:~:text=MongoDB%20supports%20query%20operations%20on%20geospatial%20data.%20This,learn%20more%2C%20see%20Perform%20Geospatial%20Queries%20in%20Atlas.?msockid=19c3d7e25a1d6e7108cbc3475b866f2b)
 
 
+### Aggregation Framework
+
+The Aggregation Framework in MongoDB is used for processing and transforming data within a collection. It operates through a pipeline that consists of multiple stages, each performing a specific operation on the documents.
+
+
+``` bash
+db.collectioname.aggregate([{$match:{gender:"female"}}]).pretty()  #$match	Filters documents (like find())
+
+```
+
+1.$match:	Filters documents (like find())
+
+
+``` bash
+db.collectioname.aggregate([{$match:{gender:'female'}},{$group:{_id:{state:"$location.state"},totalPersons:{$sum:1}}}])
+
+```
+
+similar to 
+
+```sql
+SELECT location.state AS state, COUNT(*) AS totalPersons
+FROM collectionname
+WHERE gender = 'female'
+GROUP BY location.state;
+```
 
 
 
+2.$group:	Groups documents by a field and performs aggregations (e.g., sum, avg)
+
+
+``` bash
+db.collectioname.aggregate([{$match:{gender:'female'}},{$group:{_id:{state:"$location.state"},totalPersons:{$sum:1}}},{$sort:{totalPerson:-1}}],
+)
+
+```
+
+3.$sort: Sorts documents based on a field
 
 
 
+``` bash
+db.collectioname.aggregate([$project:{
+_id:0,
+name:1,
+email:1,
+location:{
+type:"Point",
+coordinate:[
+'$location.coordinates.longitude',
+$location.coordinates.latitude
+]}}]
+)
+
+```
+
+4.$project:	Modifies documents, includes/excludes fields, or computes new ones
 
 
 
+``` bash
+db.collectioname.aggregate([$project:{
+_id:0,
+name:1,
+email:1,
+birthdate:{
+$convert:{input:'$dob.date',to"date'}}
+}
+]
+)
+```
+
+Series of pipeline 
+
+Pipeline Stages - The aggregation pipeline consists of multiple stages that process data sequentially.
+
+
+``` bash
+db.collectioname.aggregate([
+{$group:{_id:{age:'$age'},allHobbies:{$push:"$hobbies"}}}
+]) # returns nested hobbies
+```
+
+
+5. $unwind:	Deconstructs arrays into multiple documents
+
+``` bash
+db.collectioname.aggregate([
+{$unwind:"$hobbies"},
+{$group:{_id:{age:'$age'},allHobbies:{$push:"$hobbies"}}}
+]) # returns splits the array into multiple  but duplicate
+```
 
 
 
+``` bash
+db.collectioname.aggregate([
+{$unwind:"$hobbies"},
+{$group:{_id:{age:'$age'},allHobbies:{$addToSet:"$hobbies"}}}
+]) # returns splits the array into multiple  no duplicates
+```
 
-  
+
+How to get the first field from list of arrays
 
 
- 
+``` bash
+db.collectioname.aggregate([
+{$project:{_id:0,examScore:{$slice:["$filedname",1]}}}
+]) 
+```
+
+
+length of array
+
+
+``` bash
+db.collectioname.aggregate([
+{$project:{_id:0,numScore:{$size:"#examScores"}
+]) 
+```
+
+Filter with project
+
+``` bash
+db.collectioname.aggregate([
+{$project:{_id:0,scores:{$filter:{input:'$examScores',as:'sc',cond:{$gt:["$$sc.score",60]}}}}}
+]) 
+```
+
+
+$bucket
+
+
+``` bash
+db.collectioname.aggregate([
+{$bucket:{groupBy:"$dob.age",boundaries:[10,18,30,40],output:{
+names:{$push:"$name.first"}
+}}}
+]) 
+```
+OR
+
+``` bash
+db.collectioname.aggregate([
+{
+$bucketAuto:{
+groupBy:"$dob.age",
+bucket:5,
+output:{
+numPerson:{sum:1},
+avergaeAge:{$avg:'$dob.age'}
+}
+}
+{$out:{transformedPerson}
+}
+]) # output into different collection.
+```
+
+
+$geoNear
+
+``` bash
+db.collectioname.aggregate([
+{
+$geoNear:{
+near:{type:"Point",coordinate:[long,lat]}
+},
+
+maxDistance:10000,
+num:10, #limit
+
+}
+]) #geoNear has to be the first pipeline
+```
+
+### Working with Numeric Data
+
+
+
 
